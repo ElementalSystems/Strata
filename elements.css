@@ -1,0 +1,18 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  background: #333;
+  overflow: hidden; }
+
+  canvas.main {
+  background: #DDD;
+  width:80%;
+  height:500px;
+  }
+
+  canvas.texture {
+  width:500px;
+  height:100px;
+  display:none;
+  }
