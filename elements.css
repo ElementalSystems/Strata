@@ -7,12 +7,12 @@ body {
 
   canvas.main {
   background: #DDD;
-  width:80%;
+  width:500px;
   height:500px;
   }
 
   canvas.texture {
-  width:500px;
+  width:100px;
   height:100px;
-  display:none;
+  
   }

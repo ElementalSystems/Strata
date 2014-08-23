@@ -17,22 +17,58 @@ function drawMain()
 	c.width = 500; c.height = 500;
 	var ctx = c.getContext('2d');
 	
-	ctx.fillStyle="#AAAAFF"
-	var xpos=0;
+	ctx.fillStyle="#000"
 	
+	var Layers=[];
+	var layerStart=400;
+	var lastTime=0;
 	function step(timestamp) {
-	  ctx.save();
+	    
+	  var frameTime=(lastTime==0)?0:(timestamp-lastTime);
+      lastTime=timestamp;	  
 	  ctx.fillRect(0,0,500,500);
 	  
+	  //load patterns
+	  for (var i=0;i<Elements.length;i+=1)
+	    if (!Elements[i].pattern)
+		   Elements[i].pattern=ctx.createPattern(Elements[i],'repeat');
+
+	  var yDie=200;
 	  
+	  var yStart=yDie+layerStart;	   
+	  var layerDepth=50;
+	  var layerSpeed=50;
+      for (var i=0;i<Layers.length;i+=1) {
+	    ctx.save();
+	    ctx.beginPath();
+	    ctx.fillStyle=Elements[Layers[i]].pattern;
+		ctx.moveTo(0,yStart+i*layerDepth);
+		ctx.quadraticCurveTo(250,yDie,500,yStart+i*layerDepth);
+		ctx.lineTo(500,yStart+i*layerDepth+layerDepth);
+		ctx.lineTo(0,yStart+i*layerDepth+layerDepth);
+		ctx.fill();
+		ctx.restore();	  
+	  }
+	  
+	  layerStart-=layerSpeed*frameTime/1000;
+	  if (layerStart<0) {
+	    layerStart+=layerDepth;
+		Layers.splice(0,1);
+	  }
+	  
+	  while (Layers.length<20)
+	    Layers.push(Math.floor(Math.random()*Elements.length));
+		
+	  
+		   
+	  /*
 	  var xoff=0;
 	  var yoff=slide(0,100,200,timestamp);
 	  var waveamp=pingpong(-50,50,500,timestamp);
 	  ctx.translate(-xoff,-yoff);
 	  
 	  ctx.beginPath();
-	  var fire_pat=ctx.createPattern(document.getElementById("fire"),"repeat");	
-	  ctx.fillStyle=fire_pat;
+	  ctx.fillStyle=Elements[0].pattern;
 	  ctx.moveTo(0+xoff,50+yoff);
 	  ctx.bezierCurveTo(200+xoff,50-waveamp+yoff,300+xoff,50+waveamp+yoff,500+xoff,50+yoff);
 	  ctx.lineTo(500+xoff,250+yoff);
@@ -50,10 +86,9 @@ function drawMain()
 	  ctx.beginPath();
 	  
 	  
-	  var water_pat=ctx.createPattern(document.getElementById("water"),"repeat");	
 	  waveamp=pingpong(-80,80,2000,timestamp);
 	  
-	  ctx.fillStyle=water_pat;
+	  ctx.fillStyle=Elements[1].pattern;;
 	  ctx.moveTo(0+xoff,200+yoff);
 	  ctx.bezierCurveTo(100+xoff,200-waveamp+yoff,200+xoff,200+waveamp+yoff,300+xoff,200+yoff);
 	  ctx.bezierCurveTo(400+xoff,200-waveamp+yoff,500+xoff,200+waveamp+yoff,600+xoff,200+yoff);
@@ -66,9 +101,7 @@ function drawMain()
 	  
 	  ctx.beginPath();	  
 	  
-	  var ice_pat=ctx.createPattern(document.getElementById("ice"),"repeat");	
-	  
-	  ctx.fillStyle=ice_pat;
+	  ctx.fillStyle=Elements[2].pattern;;
 	  ctx.moveTo(0,300);
 	  ctx.lineTo(500,300);
 	  ctx.lineTo(500,500);
@@ -83,7 +116,7 @@ function drawMain()
 	  ctx.translate(-xoff,-yoff);
 	  
 	  ctx.beginPath();
-	  ctx.fillStyle=fire_pat;
+	  ctx.fillStyle=Elements[0].pattern;
 	  ctx.moveTo(0+xoff,400+yoff);
 	  ctx.bezierCurveTo(200+xoff,400-waveamp+yoff,300+xoff,400+waveamp+yoff,500+xoff,400+yoff);
 	  ctx.lineTo(500+xoff,420+yoff);
@@ -92,7 +125,7 @@ function drawMain()
 	  ctx.fill();
 	  
 	  ctx.restore();	  
-	  
+	  */
 	  window.requestAnimationFrame(step);
 	}	
 	step(-1);
