@@ -27,7 +27,8 @@ function makeFire()
 	  f_ctx.quadraticCurveTo(100-f_pos-r,50,100-f_pos,0);
 	  f_ctx.stroke();
 	}
-	
+	fc.xflow=0;
+	fc.yflow=-2.5;
 	return fc;
 }
 
@@ -52,6 +53,8 @@ function makeEarth()
 	  f_ctx.stroke();
 	}
 	
+	fc.xflow=0;
+	fc.yflow=-.5;	
 	return fc;
 }
 
@@ -90,7 +93,8 @@ function makeWater()
 	  	  
 	  
 	}
-	
+	c.xflow=1;
+	c.yflow=-.7;	
 	return c;
 }
 
@@ -122,6 +126,8 @@ function makeSand()
 	  ctx.arc(x,y,r,0,2*Math.PI);
 	  ctx.fill();	  
 	}
+	c.xflow=0;
+	c.yflow=-.5;
 	
 	return c;
 }
@@ -160,7 +166,10 @@ function makeIce()
 	  ctx.globalAlpha=Math.random()*.3+.1;
 	  ctx.lineWidth=1;
 	  ctx.stroke();	  
-	}	
+	}
+    c.xflow=0;
+	c.yflow=-.5;
+		
 	return c;
 }
 
