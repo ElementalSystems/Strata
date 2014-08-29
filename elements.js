@@ -173,7 +173,7 @@ function makeIce()
 	return c;
 }
 
-var Elements=[makeFire(),makeWater(),makeEarth(),makeIce(),makeSand()];
+var Elements=[makeFire(),makeWater(),makeIce(),makeEarth(),makeSand()];
 
 function drawAll()
 {

@@ -1,3 +1,7 @@
+var addElement=-1;
+var addTime=0;
+
+
 function pingpong(start,end,time,timestamp)
 {
   var pos=timestamp%(time*2);
@@ -11,6 +15,14 @@ function slide(start,end,time,timestamp)
   return start+(pos/time)*(end-start);
 }
 
+function rainDownElement(elementIndex)
+{
+  if (addElement<0) {
+     addElement=elementIndex;  
+	 addtime=0;
+  }
+}
+
 function drawMain()
 {
 	var c=document.getElementById('main');
@@ -21,13 +33,11 @@ function drawMain()
 	var Layers=[];
 	var layerStart=400;
 	var lastTime=0;
-	var addElement=-1;
-	var addTime=0;
-	var fullAddTime=1000;
+	var fullAddTime=500;
 	
 	function step(timestamp) {
 	  
-      var yDie=200;
+      var yDie=250;
 	  var layerDepth=50;
 	  var layerSpeed=50;
       	  
@@ -42,7 +52,7 @@ function drawMain()
 	  ctx.fillStyle="#005"
 	  ctx.globalAlpha=frameTime/250;
 	  ctx.fillRect(0,0,500,500);
-	  ctx.globalAlpha=1;
+	  ctx.globalAlpha=.8;
 	  
 	  //draw the current action
 	  if (addElement>=0) {
@@ -55,9 +65,10 @@ function drawMain()
 		 ctx.bezierCurveTo(300,yPos+2*layerDepth,300,yPos,0,yPos+layerDepth);		 
 		 ctx.fill();
          addTime+=frameTime;
-         if (ratio>1) { addElement-=1;	addTime=0; }
-	  } else addElement=4;
+         if (ratio>1) { addElement=-1;	addTime=0; }
+	  }
 	  
+	  ctx.globalAlpha=1;
 	  
 	  
 	  var yStart=yDie+layerStart;	   
