@@ -39,7 +39,7 @@ function drawMain()
 	  
       var yDie=250;
 	  var layerDepth=50;
-	  var layerSpeed=50;
+	  var layerSpeed=20;
       	  
 	  var frameTime=(lastTime==0)?0:(timestamp-lastTime);
       lastTime=timestamp;	  
@@ -51,18 +51,26 @@ function drawMain()
 	  //clear old contents
 	  ctx.fillStyle="#005"
 	  ctx.globalAlpha=frameTime/250;
-	  ctx.fillRect(0,0,500,500);
-	  ctx.globalAlpha=.8;
+	  //ctx.fillRect(0,0,500,500);
+	  ctx.drawImage(Backdrop,0,0);
+	  ctx.globalAlpha=.5;
 	  
 	  //draw the current action
 	  if (addElement>=0) {
 	     var ratio=(addTime+0.001)/fullAddTime;
 		 var yPos=ratio*(yDie+layerStart+layerDepth*2);
+		 var width=ratio*700;
+		 var left=250-width/2;
+		 var right=250+width/2;
+		 var off1=left+width/3;
+		 var off2=left+2*width/3;
+		 
+		 
 		 ctx.fillStyle=Elements[addElement].pattern;
-		 ctx.moveTo(0,yPos);
-		 ctx.bezierCurveTo(200,yPos-layerDepth,300,yPos+layerDepth,500,yPos);
-		 ctx.lineTo(500,yPos+layerDepth);
-		 ctx.bezierCurveTo(300,yPos+2*layerDepth,300,yPos,0,yPos+layerDepth);		 
+		 ctx.moveTo(left,yPos);
+		 ctx.bezierCurveTo(off1,yPos-layerDepth,off2,yPos+layerDepth,right,yPos);
+		 ctx.lineTo(right,yPos+layerDepth);
+		 ctx.bezierCurveTo(off2,yPos+2*layerDepth,off1,yPos,left,yPos+layerDepth);		 
 		 ctx.fill();
          addTime+=frameTime;
          if (ratio>1) { addElement=-1;	addTime=0; }

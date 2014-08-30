@@ -174,15 +174,17 @@ function makeIce()
 }
 
 var Elements=[makeFire(),makeWater(),makeIce(),makeEarth(),makeSand()];
+var ElDrawCount=0;
+  
 
 function drawAll()
 {
-  var count=0;
   for (var i=0;i<Elements.length;i+=1) {
-     Elements[i].step(count);
-	 Elements[i].pattern=null;
-	 count+=1;
+     Elements[i].step(ElDrawCount);
+	 Elements[i].pattern=null;	 
   }
+  Backdrop.step(ElDrawCount);
+  ElDrawCount+=1;
   setTimeout(drawAll,100);
 }
 
