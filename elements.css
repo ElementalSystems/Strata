@@ -8,13 +8,25 @@ body {
 
   canvas.main {
   background: #DDD;
-  width:80%;
+  width:100%;
+  max-width:800px;
   height:80%;
   margin-left: auto;
   clear:left;
   }
 
   canvas.texture {
-  width:16%;
-  height:80%;
+  display:none;
+  }
+  
+  canvas.texture.control {
+    max-width: 100px;
+	width:20%;
+    height:19%;
+	max-height:100px;
+	display: inline;
+ }
+ 
+ #backdrop {
+   
  }
