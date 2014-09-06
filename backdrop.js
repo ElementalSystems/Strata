@@ -15,20 +15,21 @@ function makeBackdrop()
 	  ctx.fillStyle="#222255"
 	  ctx.globalAlpha=.05;
 	  ctx.fillRect(0,0,c.width,c.height);	
-	  var xstep=c.width*.6/30.0;
-	  var ystep=pipeHeight/30.0;
+	  var xstep=c.width*.6/50.0;
+	  var ystep=pipeHeight/50.0;
 	  
 	
 	  ctx.beginPath();	  	  
-	  var p=(count%60);
-	  if (p>30) p=60-p;
+	  var p=(count%100);
+	  if (p>50) p=100-p;
+	  
 	  ctx.moveTo(p*xstep,0);
 	  ctx.lineTo(c.width*.55,p*ystep);	  
 	  ctx.moveTo(c.width*.45,p*ystep);
 	  ctx.lineTo(c.width-p*xstep,0);
-      ctx.strokeStyle='#FFF';
-	  ctx.globalAlpha=1;
-	  ctx.lineWidth=1;
+      ctx.strokeStyle='rgb(200,200,'+200+p+')';
+	  ctx.globalAlpha=.7;
+	  ctx.lineWidth=3;
 	  ctx.stroke();
 	  
 	  ctx.beginPath();

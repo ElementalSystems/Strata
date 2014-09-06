@@ -34,7 +34,7 @@ function makeAir()
 	}
 	fc.xflow=0;
 	fc.yflow=-.8;
-	fc.response_transform=[-1,0,2,3];
+	fc.response_transform=[-1,0,0,0];
 	fc.response_addlayer=[-1,-1,-1,-1];
 	
 	return fc;
@@ -69,6 +69,9 @@ function makeFire()
 	}
 	fc.xflow=0;
 	fc.yflow=-2.5;
+	fc.response_transform=[1,1,1,7];
+	fc.response_addlayer=[1,-1,5,-1];
+	
 	return fc;
 }
 
@@ -95,6 +98,8 @@ function makeEarth()
 	
 	fc.xflow=0;
 	fc.yflow=-.5;	
+	fc.response_transform=[3,7,6,3];
+	fc.response_addlayer=[-1,-1,-1,3];
 	return fc;
 }
 
@@ -135,8 +140,8 @@ function makeWater()
 	}
 	c.xflow=1;
 	c.yflow=-.7;	
-	c.response_transform=[4,6,2,3];
-	c.response_addlayer=[-1,-1,-1,-1];
+	c.response_transform=[4,-1,2,3];
+	c.response_addlayer=[-1,-1,-1,2];
 	return c;
 }
 
@@ -177,8 +182,8 @@ function makeMist()
 	}
 	c.xflow=-1;
 	c.yflow=-1;	
-	c.response_transform=[-1,6,2,3];
-	c.response_addlayer=[-1,6,-1,-1];
+	c.response_transform=[-1,5,2,6];
+	c.response_addlayer=[-1,5,-1,-1];
 	return c;
 }
 
@@ -213,8 +218,8 @@ function makeSand()
 	c.xflow=0;
 	c.yflow=-.5;
 	
-	c.response_transform=[-1,0,2,3];
-	c.response_addlayer=[-1,-1,-1,-1];
+	c.response_transform=[5,6,2,6];
+	c.response_addlayer=[-1,-1,-1,3];
 	
 	return c;
 }
@@ -257,13 +262,60 @@ function makeIce()
     c.xflow=0;
 	c.yflow=-.5;
 		
-	c.response_transform=[4,3,4,4];
-	c.response_addlayer=[-1,-1,-1,-1];
+	c.response_transform=[4,2,4,4];
+	c.response_addlayer=[-1,-1,2,3];
 	
 	return c;
 }
 
-var Elements=[makeAir(),makeFire(),makeSand(),makeWater(),makeIce(),makeEarth(),makeMist()];
+function makeLava()
+{
+	var c=document.getElementById('lava');
+	c.width = 100; c.height = 100;
+	var ctx = c.getContext('2d');
+	
+	ctx.fillStyle="#330000"
+	ctx.fillRect(0,0,500,500);
+	var x=0,y=0;
+	
+	c.step=function(count) {
+	  
+	  if ((count%10)==0) {
+	    ctx.fillStyle="#330000"
+	    ctx.globalAlpha=.1;
+	    ctx.fillRect(0,0,500,500);
+		x=Math.random()*100;
+		y=Math.random()*100;
+	  }
+	  
+	  ctx.beginPath();
+	  ctx.moveTo(x,y);
+	  x+=Math.random()*5-2;
+	  y+=Math.random()*10+10;
+	  ctx.lineTo(x,y);
+	  x+=Math.random()*30-15;
+	  y+=Math.random()*5-2;
+	  ctx.lineTo(x,y);	  
+	  ctx.strokeStyle='rgb(255,0,0)';
+	  ctx.globalAlpha=1;
+	  ctx.lineWidth=1+Math.random()*3;
+	  ctx.stroke();
+	  if (x>100) x=0;
+	  if (x<0) x=100;
+	  if (y>100) y=0;
+	  	  
+	  
+	}
+    c.xflow=0;
+	c.yflow=-.5;
+		
+	c.response_transform=[3,1,3,6];
+	c.response_addlayer=[-1,-1,5,5];
+	
+	return c;
+}
+
+var Elements=[makeAir(),makeFire(),makeWater(),makeEarth(),makeIce(),makeMist(),makeSand(),makeLava()];
 var ElDrawCount=0;
   
 
