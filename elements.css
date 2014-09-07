@@ -19,7 +19,7 @@ body {
  }
  
  #helptext {
- right:-30%;
+ right:-50%;
  max-width:25%;
  display: block;
  font-size: 60%;
@@ -33,7 +33,7 @@ body {
  }
 
  #levelindicator {
- left:-25%;
+ left:-45%;
  max-width:25%;
  display: block;
  transition: left 1s;
@@ -59,19 +59,19 @@ body {
  
  body.inplay #startboard
  {
-   top: -40%
+   top: -60%
  }
  
  body.gameover #startboard
  {
-   top: -40%
+   top: -60%
  }
  
  #endboard {
  margin:auto;
  left:0;
  right: 0;
- top:-40%;
+ top:-70%;
  width: 10em;
  max-width:80%;
  max-height: 40%;
