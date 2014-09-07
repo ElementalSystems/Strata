@@ -9,7 +9,7 @@ function makeBackdrop()
 	
 	ctx.fillStyle="#222255"
 	ctx.fillRect(0,0,c.width,c.height);	
-	var pipeHeight=c.height*.3;
+	var pipeHeight=c.height*.2;
 	
 	c.step=function(count) {
 	  ctx.fillStyle="#222255"

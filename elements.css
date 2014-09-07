@@ -5,6 +5,7 @@ body {
   background: #333;
   font-family: sans-serif;
   font-size: 2em;
+  overflow: hidden;
   }
   
   
@@ -18,31 +19,31 @@ body {
  }
  
  #helptext {
- right:0px;
- max-width:30%;
- display: none;
- }
+ right:-30%;
+ max-width:25%;
+ display: block;
+ font-size: 60%;
+ transition: right 1s;
+ -webkit-transition: right 1s;
+  }
  
  #helptext.showhelp
  {
-    display:block;
+    right:0;
  }
 
  #levelindicator {
- left:0px;
+ left:-25%;
  max-width:25%;
- display: none;
+ display: block;
+ transition: left 1s;
+ -webkit-transition: left 1s; 
  }
 
  body.inplay #levelindicator {
- display: block;
+ left: 0;
  }
  
- #helptext.showhelp
- {
-    display:block;
- }
-
  
  #startboard {
  margin:auto;
@@ -52,33 +53,36 @@ body {
  width: 10em;
  max-width:80%;
  max-height: 40%;
+ transition: top 1s;
+ -webkit-transition: top 1s; 
  }
  
  body.inplay #startboard
  {
-   display: none;  
+   top: -40%
  }
  
  body.gameover #startboard
  {
-   display: none;  
+   top: -40%
  }
  
  #endboard {
  margin:auto;
  left:0;
  right: 0;
- top:20%;
+ top:-40%;
  width: 10em;
  max-width:80%;
  max-height: 40%;
- display: none;  
+ transition: top 1s;
+ -webkit-transition: top 1s; 
  
  }
  
  body.gameover #endboard
  {
-   display: block;  
+ top:20%;
  }
  
  .frame a {
@@ -92,16 +96,17 @@ body {
  #controlbar {
    padding: 5px;
    height: 110px;
-   bottom: 5px;
-   width:80%;
-   left: 10%;
+   bottom: -300px;
+   width:100%;
+   left: 0;
    position: absolute;
-   display:none;
+   transition: bottom 1s;
+   -webkit-transition: bottom 1s; 
  }
  
  body.inplay #controlbar
  {
-    display: block;
+   bottom: 2%;
  }
  
  
@@ -119,7 +124,7 @@ body {
   }
   
   canvas.texture.control {
-    max-width: 100px;
+    max-width: 20%;
 	max-height:100px;
 	width:100px;
 	height:100px;

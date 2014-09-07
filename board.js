@@ -3,7 +3,8 @@ var addTime=0;
 
 var Level=0;
 var helpTime=-1;
-var fullHelpTime=3000;
+var fullHelpTime=4000;
+var fullMixTime=300;
 var helptext=document.getElementById('helptext');
 var leveltext=document.getElementById('level');
 var ElGenerateList=[0,1,2,3,4,5,6,7];
@@ -30,7 +31,7 @@ function rainDownElement(elementIndex)
   }
 }
 
-var yDieP=30;
+var yDieP=20;
 var layerDepthP=10;
 var layerSpeedP=10;
 var Layers=[];
@@ -104,18 +105,22 @@ function drawMain()
          addTime+=frameTime;
          if (ratio>1) { 
 		    //change layer
-			var newEl=Elements[Layers[0]].response_transform[addElement];
-			var addEl=Elements[Layers[0]].response_addlayer[addElement];
-			if (newEl<0) { //destroy 
-			   layerStart+=layerDepth;
-		       Layers.splice(0,1);
-			   levelUp();
-			} else
-			   Layers[0]=newEl;
+			var newEl=Elements[Layers[0].El].response_transform[addElement];
+			var addEl=Elements[Layers[0].El].response_addlayer[addElement];
+			Layers[0].mixTime=fullMixTime;
+			Layers[0].mixStart=Layers[0].El;
+			Layers[0].mixEnd=newEl;
+			Layers[0].El=newEl;
 			
 			if (addEl>=0) {
+			  var lay={
+			    El: addEl,
+			    mixTime:fullMixTime,
+                mixStart:-1,
+                mixEnd:addEl			  			  
+			  };
 			  layerStart-=layerDepth;
-			  Layers.unshift(addEl);
+			  Layers.unshift(lay);
             }			
 			
 		    addElement=-1;	
@@ -126,24 +131,62 @@ function drawMain()
 	  
 	  
 	  var yStart=yDie+layerStart;	   
+	  var killtop=false;
 	  for (var i=0;i<Layers.length;i+=1) {
 	    ctx.save();
 	    ctx.beginPath();
-		var xoff=(yStart+i*layerDepth)*Elements[Layers[i]].xflow;
-		var yoff=(yStart+i*layerDepth)*Elements[Layers[i]].yflow;
+		var lay=Layers[i];
+		var xoff=0;
+		var yoff=0;
+		if (lay.El>=0) {
+		  xoff=(yStart+i*layerDepth)*Elements[lay.El].xflow;
+		  yoff=(yStart+i*layerDepth)*Elements[lay.El].yflow;
+		}
 		ctx.translate(-xoff,-yoff)
-	    ctx.fillStyle=Elements[Layers[i]].pattern;
-		ctx.moveTo(xoff,yoff+yStart+i*layerDepth);
+	    ctx.moveTo(xoff,yoff+yStart+i*layerDepth);
 		ctx.quadraticCurveTo(xoff+c.width/2,yoff+(yDie+yStart+i*layerDepth)/2,xoff+c.width,yoff+yStart+i*layerDepth);
 		ctx.lineTo(xoff+c.width,yoff+yStart+i*layerDepth+layerDepth);
 		ctx.lineTo(xoff,yoff+yStart+i*layerDepth+layerDepth);
-		ctx.fill();
+		if (lay.mixTime>0) {
+		  var ratio=lay.mixTime/fullMixTime;
+		  ctx.globalAlpha=1;
+		  if (lay.mixEnd<0) //disappearing
+		    ctx.globalAlpha=ratio;
+		  //draw the top layer
+		  if (lay.mixStart>=0) {
+		    ctx.fillStyle=Elements[lay.mixStart].pattern;
+		    ctx.fill();
+		  }
+		  if (lay.mixEnd>=0) {
+		    ctx.globalAlpha=1-ratio;
+		    ctx.fillStyle=Elements[lay.mixEnd].pattern;
+		    ctx.fill();
+		  }
+		  lay.mixTime-=frameTime;
+          if ((lay.mixTime<0)&&(lay.mixEnd<0)) 
+		    killtop=true;
+		} else {
+		  ctx.globalAlpha=1;
+		  ctx.fillStyle=Elements[lay.El].pattern;
+		  ctx.fill();
+		}
 		ctx.restore();	  
 	  }
+	  if (killtop)
+	    { //need to destory this layer
+		  layerStart+=layerDepth;
+		  Layers.splice(0,1);
+		  levelUp();			
+	    }		  		  		  
 	  
 	  
-	  while (Layers.length<10)
-	    Layers.push(ElGenerateList[Math.floor(Math.random()*ElGenerateList.length)]);
+	  while (Layers.length<10) {
+	    var l={
+		  El: ElGenerateList[Math.floor(Math.random()*ElGenerateList.length)],
+		  mixTime: 0
+		};
+		Layers.push(l);
+	  }
 		
 	  if (helpTime>0) {
 	     helpTime-=frameTime;
@@ -208,15 +251,13 @@ function maingame()
   case 2: layerSpeedP=2; ElGenerateList=[2,4,6,5];  break;  
   case 10: layerSpeedP=3; break;
   case 15: layerSpeedP=4; break;
-  case 25: layerSpeedP=1; ElGenerateList=[2,4,6,5,3,3,7,7]; break;
-  case 30: layerSpeedP=2; break;
+  case 25: layerSpeedP=2; ElGenerateList=[2,4,6,5,3,3,7,7]; break;
   case 35: layerSpeedP=3; break;
   case 40: layerSpeedP=4; break;
-  case 45: layerSpeedP=1; ElGenerateList=[1,2,3,4,5,6,7]; break;
-  case 60: layerSpeedP=2; break;
-  case 70: layerSpeedP=3; break;
+  case 45: layerSpeedP=2; ElGenerateList=[1,2,3,4,5,6,7]; break;
+  case 60: layerSpeedP=3; break;
   case 80: layerSpeedP=4; break;
-  case 90: layerSpeedP=5; break;
+  case 100: layerSpeedP=5; break;
   
   }
 }
