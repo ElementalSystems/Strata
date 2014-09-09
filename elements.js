@@ -180,8 +180,8 @@ function makeMist()
 	  	  
 	  
 	}
-	c.xflow=-1;
-	c.yflow=-1;	
+	c.xflow=-4.2;
+	c.yflow=-2;	
 	c.response_transform=[-1,5,2,6];
 	c.response_addlayer=[-1,5,-1,-1];
 	return c;
@@ -216,13 +216,14 @@ function makeSand()
 	  ctx.fill();	  
 	}
 	c.xflow=0;
-	c.yflow=-.5;
+	c.yflow=-.75;
 	
 	c.response_transform=[5,6,2,6];
 	c.response_addlayer=[-1,-1,-1,3];
 	
 	return c;
 }
+
 
 
 function makeIce()
@@ -236,28 +237,46 @@ function makeIce()
 	
 	
 	c.step=function() {
+	  
+	  var xpos=Math.random()*100+50;
+	  var ypos=Math.random()*100+50;
+	  var size=Math.random()*25+12;
+	  var width=Math.random()*150-75;	  
+	  if (Math.random()>.5)
+	    ctx.fillStyle='rgb(200,200,'+Math.round(Math.random()*55+200).toString()+')';
+	  else
+	    ctx.fillStyle='rgb(64,64,'+Math.round(Math.random()*55+200).toString()+')';
+	  	  
+	  ctx.globalAlpha=.3+Math.random()*.4;
 	  ctx.beginPath();
-	  var p=Math.random()*100;
-	  var poff=Math.random()*10;
-	  ctx.moveTo(p-poff,0);
-	  ctx.lineTo(p+poff,100);	  
-	  ctx.moveTo(p+poff,0);
-	  ctx.lineTo(p-poff,100);	  
-	  ctx.strokeStyle='rgb(200,200,'+Math.round(Math.random()*55+200).toString()+')';
-	  ctx.globalAlpha=Math.random()*.5+.1;
-	  ctx.lineWidth=2;
-	  ctx.stroke();
-	  ctx.beginPath();	  
-	  p=Math.random()*100;
-	  poff=Math.random()*10;	  
-	  ctx.moveTo(0,p-poff);
-	  ctx.lineTo(100,p+poff);	  
-	  ctx.moveTo(0,p+poff);
-	  ctx.lineTo(100,p-poff);	  
-	  ctx.strokeStyle='rgb(50,50,'+Math.round(Math.random()*515+100).toString()+')';
-	  ctx.globalAlpha=Math.random()*.3+.1;
-	  ctx.lineWidth=1;
-	  ctx.stroke();	  
+	  ctx.moveTo(xpos,ypos-size);
+	  ctx.lineTo(xpos+width,ypos);
+	  ctx.lineTo(xpos,ypos+size);
+	  ctx.lineTo(xpos,ypos-size);	  
+	  ctx.fill();
+	  
+	  ctx.beginPath();
+	  ctx.moveTo(xpos-100,ypos-size);
+	  ctx.lineTo(xpos+width-100,ypos);
+	  ctx.lineTo(xpos-100,ypos+size);
+	  ctx.lineTo(xpos-100,ypos-size);
+	  ctx.fill();
+	  
+	  ctx.beginPath();
+	  ctx.moveTo(xpos,ypos-size-100);
+	  ctx.lineTo(xpos+width,ypos-100);
+	  ctx.lineTo(xpos,ypos+size-100);
+	  ctx.lineTo(xpos,ypos-size-100);
+	  ctx.fill();
+	  
+	  
+	  ctx.beginPath();
+	  ctx.moveTo(xpos-100,ypos-size-100);
+	  ctx.lineTo(xpos+width-100,ypos-100);
+	  ctx.lineTo(xpos-100,ypos+size-100);
+	  ctx.lineTo(xpos-100,ypos-size-100);
+	  ctx.fill();
+	   
 	}
     c.xflow=0;
 	c.yflow=-.5;
